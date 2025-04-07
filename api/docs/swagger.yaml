@@ -188,6 +188,8 @@ paths:
                 data:
                   type: string
               type: object
+      security:
+      - BearerAuth: []
       summary: Get All Movies
       tags:
       - Movie
@@ -225,6 +227,8 @@ paths:
                 data:
                   type: string
               type: object
+      security:
+      - BearerAuth: []
       summary: Create Movie
       tags:
       - Movie
@@ -269,6 +273,8 @@ paths:
                 data:
                   type: string
               type: object
+      security:
+      - BearerAuth: []
       summary: Update Movie
       tags:
       - Movie
@@ -313,6 +319,8 @@ paths:
                 data:
                   type: string
               type: object
+      security:
+      - BearerAuth: []
       summary: Delete Movie
       tags:
       - Movie
@@ -356,6 +364,8 @@ paths:
                 data:
                   type: string
               type: object
+      security:
+      - BearerAuth: []
       summary: Get Single Movie
       tags:
       - Movie
@@ -441,6 +451,8 @@ paths:
                 data:
                   type: string
               type: object
+      security:
+      - BearerAuth: []
       summary: Get All Users
       tags:
       - User
@@ -478,6 +490,8 @@ paths:
                 data:
                   type: string
               type: object
+      security:
+      - BearerAuth: []
       summary: Create User
       tags:
       - User
@@ -522,6 +536,8 @@ paths:
                 data:
                   type: string
               type: object
+      security:
+      - BearerAuth: []
       summary: Update User
       tags:
       - User
@@ -566,6 +582,8 @@ paths:
                 data:
                   type: string
               type: object
+      security:
+      - BearerAuth: []
       summary: Delete User
       tags:
       - User
@@ -609,7 +627,14 @@ paths:
                 data:
                   type: string
               type: object
+      security:
+      - BearerAuth: []
       summary: Get Single User
       tags:
       - User
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

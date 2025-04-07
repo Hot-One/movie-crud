@@ -85,6 +85,11 @@ const docTemplate = `{
         },
         "/v1/movie": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Get All Movies",
                 "consumes": [
                     "application/json"
@@ -168,6 +173,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Update Movie",
                 "consumes": [
                     "application/json"
@@ -248,6 +258,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Create Movie",
                 "consumes": [
                     "application/json"
@@ -315,6 +330,11 @@ const docTemplate = `{
         },
         "/v1/movie/{id}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Get Single Movie By Id",
                 "consumes": [
                     "application/json"
@@ -393,6 +413,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Delete Movie",
                 "consumes": [
                     "application/json"
@@ -540,6 +565,11 @@ const docTemplate = `{
         },
         "/v1/user": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Get All Users",
                 "consumes": [
                     "application/json"
@@ -623,6 +653,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Update User",
                 "consumes": [
                     "application/json"
@@ -703,6 +738,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Create User",
                 "consumes": [
                     "application/json"
@@ -770,6 +810,11 @@ const docTemplate = `{
         },
         "/v1/user/{id}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Get Single User By Id",
                 "consumes": [
                     "application/json"
@@ -848,6 +893,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Delete User",
                 "consumes": [
                     "application/json"
@@ -1074,6 +1124,13 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }`

@@ -121,3 +121,25 @@ func (r *AuthResository) Login(request *models.Login) (string, error) {
 
 	return token, nil // Return nil error if everything goes fine
 }
+
+func (r *AuthResository) HasAccess(request *models.HasAccessUserRequest) (*models.HasAccessUserResponse, error) {
+	session := models.Session{}
+	tokenData, err := security.ParseClaims(request.Token, r.cfg.SignKey)
+	if err != nil {
+		return nil, err
+	}
+
+	result := r.db.Db.Table("sessions").Where("id = ?", tokenData.ID).First(&session)
+	if result.Error != nil {
+		return nil, err
+	}
+
+	if session.ExpiresAt.Unix() < time.Now().Add(5*time.Hour).Unix() {
+		return nil, errors.New("token has been expired")
+	}
+
+	return &models.HasAccessUserResponse{
+		UserId:    session.UserId,
+		HasAccess: true,
+	}, nil
+}

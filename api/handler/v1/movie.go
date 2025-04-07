@@ -14,6 +14,7 @@ import (
 // @Summary Create Movie
 // @Description Create Movie
 // @Router /v1/movie [POST]
+// @Security BearerAuth
 // @Tags Movie
 // @Accept json
 // @Produce json
@@ -32,6 +33,7 @@ func (h *handlerV1) CreateMovie(c *gin.Context) {
 	err := h.storage.MovieService().CreateMovie(&movie)
 	if err != nil {
 		h.log.Error("failed while creating user", logger.Error(err))
+		h.handleResponse(c, status_http.InternalServerError, err.Error())
 		return
 	}
 
@@ -42,6 +44,7 @@ func (h *handlerV1) CreateMovie(c *gin.Context) {
 // @Summary Update Movie
 // @Description Update Movie
 // @Router /v1/movie [PUT]
+// @Security BearerAuth
 // @Tags Movie
 // @Accept json
 // @Produce json
@@ -59,7 +62,7 @@ func (h *handlerV1) UpdateMovie(c *gin.Context) {
 
 	response, err := h.storage.MovieService().UpdateMovie(&request)
 	if err != nil {
-		h.handleResponse(c, status_http.InternalServerError, err)
+		h.handleResponse(c, status_http.InternalServerError, err.Error())
 		return
 	}
 
@@ -70,6 +73,7 @@ func (h *handlerV1) UpdateMovie(c *gin.Context) {
 // @Summary Get Single Movie
 // @Description Get Single Movie By Id
 // @Router /v1/movie/{id} [GET]
+// @Security BearerAuth
 // @Tags Movie
 // @Accept json
 // @Produce json
@@ -83,7 +87,7 @@ func (h *handlerV1) GetSingleMovie(c *gin.Context) {
 
 	response, err := h.storage.MovieService().GetMovieByID(movieID)
 	if err != nil {
-		h.handleResponse(c, status_http.InternalServerError, err)
+		h.handleResponse(c, status_http.InternalServerError, err.Error())
 		return
 	}
 
@@ -94,6 +98,7 @@ func (h *handlerV1) GetSingleMovie(c *gin.Context) {
 // @Summary Delete Movie
 // @Description Delete Movie
 // @Router /v1/movie/{id} [DELETE]
+// @Security BearerAuth
 // @Tags Movie
 // @Accept json
 // @Produce json
@@ -107,7 +112,7 @@ func (h *handlerV1) DeleteMovie(c *gin.Context) {
 
 	err := h.storage.MovieService().DeleteMovie(movieID)
 	if err != nil {
-		h.handleResponse(c, status_http.InternalServerError, err)
+		h.handleResponse(c, status_http.InternalServerError, err.Error())
 		return
 	}
 
@@ -118,6 +123,7 @@ func (h *handlerV1) DeleteMovie(c *gin.Context) {
 // @Summary Get All Movies
 // @Description Get All Movies
 // @Router /v1/movie [GET]
+// @Security BearerAuth
 // @Tags Movie
 // @Accept json
 // @Produce json
@@ -134,7 +140,7 @@ func (h *handlerV1) GetAllMovies(c *gin.Context) {
 
 	response, err := h.storage.MovieService().GetAllMovies(request)
 	if err != nil {
-		h.handleResponse(c, status_http.InternalServerError, err)
+		h.handleResponse(c, status_http.InternalServerError, err.Error())
 		return
 	}
 

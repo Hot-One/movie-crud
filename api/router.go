@@ -22,6 +22,9 @@ type Option struct {
 // @title GromTemplate API
 // @version 1.0
 // @description API for Gorm Template
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
 func NewRouter(option Option) *gin.Engine {
 	docs.SwaggerInfo.Title = option.Conf.ServiceName
 	docs.SwaggerInfo.Schemes = []string{option.Conf.HTTPScheme}
@@ -47,6 +50,7 @@ func NewRouter(option Option) *gin.Engine {
 	api.POST("/login", handlerV1.Login)
 
 	user := api.Group("/user")
+	user.Use(handlerV1.AuthMiddleware())
 	{
 		user.POST("", handlerV1.CreateUser)
 		user.PUT("", handlerV1.UpdateUser)
@@ -56,6 +60,7 @@ func NewRouter(option Option) *gin.Engine {
 	}
 
 	movie := api.Group("/movie")
+	movie.Use(handlerV1.AuthMiddleware())
 	{
 		movie.POST("", handlerV1.CreateMovie)
 		movie.PUT("", handlerV1.UpdateMovie)

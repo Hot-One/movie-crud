@@ -1,9 +1,11 @@
 package security
 
 import (
+	"errors"
 	"time"
 
 	"github.com/golang-jwt/jwt"
+	"github.com/spf13/cast"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -48,4 +50,43 @@ func GenerateJWT(m map[string]any, tokenExpireTime time.Duration, tokenSecretKey
 	}
 
 	return tokenString, nil
+}
+
+func ExtractClaims(tokenString string, tokenSecretKey string) (jwt.MapClaims, error) {
+	var (
+		token *jwt.Token
+		err   error
+	)
+
+	token, err = jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		return []byte(tokenSecretKey), nil
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !(ok && token.Valid) {
+		return nil, errors.New("invalid token")
+	}
+
+	return claims, nil
+}
+
+type TokenInfo struct {
+	ID uint
+}
+
+func ParseClaims(token string, secretKey string) (result TokenInfo, err error) {
+	var claims jwt.MapClaims
+
+	claims, err = ExtractClaims(token, secretKey)
+	if err != nil {
+		return result, err
+	}
+
+	result.ID = cast.ToUint(claims["id"])
+
+	return
 }

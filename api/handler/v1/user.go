@@ -13,6 +13,7 @@ import (
 // Create User
 // @Summary Create User
 // @Description Create User
+// @Security BearerAuth
 // @Router /v1/user [POST]
 // @Tags User
 // @Accept json
@@ -47,6 +48,7 @@ func (h *handlerV1) CreateUser(c *gin.Context) {
 	err := h.storage.UserService().CreateUser(&user)
 	if err != nil {
 		h.log.Error("failed while creating user", logger.Error(err))
+		h.handleResponse(c, status_http.InternalServerError, err.Error())
 		return
 	}
 
@@ -57,6 +59,7 @@ func (h *handlerV1) CreateUser(c *gin.Context) {
 // @Summary Update User
 // @Description Update User
 // @Router /v1/user [PUT]
+// @Security BearerAuth
 // @Tags User
 // @Accept json
 // @Produce json
@@ -74,7 +77,7 @@ func (h *handlerV1) UpdateUser(c *gin.Context) {
 
 	response, err := h.storage.UserService().UpdateUser(&request)
 	if err != nil {
-		h.handleResponse(c, status_http.InternalServerError, err)
+		h.handleResponse(c, status_http.InternalServerError, err.Error())
 		return
 	}
 
@@ -85,6 +88,7 @@ func (h *handlerV1) UpdateUser(c *gin.Context) {
 // @Summary Get Single User
 // @Description Get Single User By Id
 // @Router /v1/user/{id} [GET]
+// @Security BearerAuth
 // @Tags User
 // @Accept json
 // @Produce json
@@ -98,7 +102,7 @@ func (h *handlerV1) GetSingleUser(c *gin.Context) {
 
 	response, err := h.storage.UserService().GetUserByID(userID)
 	if err != nil {
-		h.handleResponse(c, status_http.InternalServerError, err)
+		h.handleResponse(c, status_http.InternalServerError, err.Error())
 		return
 	}
 
@@ -109,6 +113,7 @@ func (h *handlerV1) GetSingleUser(c *gin.Context) {
 // @Summary Delete User
 // @Description Delete User
 // @Router /v1/user/{id} [DELETE]
+// @Security BearerAuth
 // @Tags User
 // @Accept json
 // @Produce json
@@ -122,7 +127,7 @@ func (h *handlerV1) DeleteUser(c *gin.Context) {
 
 	err := h.storage.UserService().DeleteUser(userID)
 	if err != nil {
-		h.handleResponse(c, status_http.InternalServerError, err)
+		h.handleResponse(c, status_http.InternalServerError, err.Error())
 		return
 	}
 
@@ -133,6 +138,7 @@ func (h *handlerV1) DeleteUser(c *gin.Context) {
 // @Summary Get All Users
 // @Description Get All Users
 // @Router /v1/user [GET]
+// @Security BearerAuth
 // @Tags User
 // @Accept json
 // @Produce json
@@ -149,7 +155,7 @@ func (h *handlerV1) GetAllUsers(c *gin.Context) {
 
 	response, err := h.storage.UserService().GetAllUsers(request)
 	if err != nil {
-		h.handleResponse(c, status_http.InternalServerError, err)
+		h.handleResponse(c, status_http.InternalServerError, err.Error())
 		return
 	}
 
