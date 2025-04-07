@@ -1,4 +1,11 @@
 definitions:
+  models.Login:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
   models.MovieCreate:
     properties:
       director:
@@ -99,6 +106,44 @@ info:
   title: GromTemplate API
   version: "1.0"
 paths:
+  /v1/login:
+    post:
+      consumes:
+      - application/json
+      description: Login user
+      parameters:
+      - description: Login User
+        in: body
+        name: login
+        required: true
+        schema:
+          $ref: '#/definitions/models.Login'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad request
+          schema:
+            allOf:
+            - $ref: '#/definitions/status_http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Internal server error
+          schema:
+            allOf:
+            - $ref: '#/definitions/status_http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: Login user
+      tags:
+      - Auth
   /v1/movie:
     get:
       consumes:
@@ -322,7 +367,7 @@ paths:
       parameters:
       - description: Register User
         in: body
-        name: movie
+        name: register
         required: true
         schema:
           $ref: '#/definitions/models.Register'

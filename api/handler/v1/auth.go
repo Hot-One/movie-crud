@@ -15,7 +15,7 @@ import (
 // @Tags Auth
 // @Accept json
 // @Produce json
-// @Param movie body models.Register true "Register User"
+// @Param register body models.Register true "Register User"
 // @Success 201
 // @Response 400 {object} status_http.Response{data=string} "Bad request"
 // @Failure 500 {object} status_http.Response{data=string} "Internal server error"
@@ -44,4 +44,32 @@ func (h *handlerV1) Register(c *gin.Context) {
 	}
 
 	h.handleResponse(c, status_http.Created, token)
+}
+
+// Login user
+// @Summary Login user
+// @Description Login user
+// @Router /v1/login [POST]
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Param login body models.Login true "Login User"
+// @Success 200
+// @Response 400 {object} status_http.Response{data=string} "Bad request"
+// @Failure 500 {object} status_http.Response{data=string} "Internal server error"
+func (h *handlerV1) Login(c *gin.Context) {
+	var request models.Login
+
+	if err := c.ShouldBindJSON(&request); err != nil {
+		h.handleResponse(c, status_http.BadRequest, err.Error())
+		return
+	}
+
+	token, err := h.storage.AuthService().Login(&request)
+	if err != nil {
+		h.handleResponse(c, status_http.InternalServerError, err.Error())
+		return
+	}
+
+	h.handleResponse(c, status_http.OK, token)
 }

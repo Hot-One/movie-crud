@@ -1,6 +1,7 @@
 package postgres
 
 import (
+	"errors"
 	"movie-crud/config"
 	"movie-crud/models"
 	"movie-crud/pkg/security"
@@ -76,4 +77,47 @@ func (r *AuthResository) Register(request *models.Register) (string, error) {
 	}
 
 	return token, nil
+}
+
+func (r *AuthResository) Login(request *models.Login) (string, error) {
+	user := models.User{}
+	user.Username = request.Username
+
+	result := r.db.Db.Table("users").Where("username = ?", user.Username).First(&user)
+	if result.Error != nil {
+		return "", result.Error
+	}
+
+	hashed, err := security.ComparePasswordBcrypt(user.Password, request.Password)
+	if err != nil {
+		return "", errors.New("incorrect password")
+	}
+
+	if !hashed {
+		return "", errors.New("incorrect password")
+	}
+
+	session := models.Session{
+		UserId:    user.Id,
+		ExpiresAt: time.Now().Add(config.AccessTokenExpiresInTime),
+	}
+
+	// Pass a pointer to session
+	result = r.db.Db.Table("sessions").Create(&session)
+	if result.Error != nil {
+		return "", result.Error // Return the error from the Create operation
+	}
+
+	tokenData := map[string]any{
+		"id":         session.Id,
+		"user_id":    session.UserId,
+		"expires_at": session.ExpiresAt,
+	}
+
+	token, err := security.GenerateJWT(tokenData, config.AccessTokenExpiresInTime, r.cfg.SignKey)
+	if err != nil {
+		return "", err
+	}
+
+	return token, nil // Return nil error if everything goes fine
 }

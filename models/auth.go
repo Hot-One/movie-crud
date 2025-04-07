@@ -6,3 +6,8 @@ type Register struct {
 	Email    string `json:"email"`
 	Phone    string `json:"phone"`
 }
+
+type Login struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}

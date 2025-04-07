@@ -44,6 +44,7 @@ func NewRouter(option Option) *gin.Engine {
 	api := router.Group("/v1")
 
 	api.POST("/register", handlerV1.Register)
+	api.POST("/login", handlerV1.Login)
 
 	user := api.Group("/user")
 	{
