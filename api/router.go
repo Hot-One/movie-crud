@@ -49,7 +49,7 @@ func NewRouter(option Option) *gin.Engine {
 		user.PUT("", handlerV1.UpdateUser)
 		user.GET(":id", handlerV1.GetSingleUser)
 		user.DELETE(":id", handlerV1.DeleteUser)
-		user.GET("/list", handlerV1.GetAllUsers)
+		user.GET("", handlerV1.GetAllUsers)
 	}
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))

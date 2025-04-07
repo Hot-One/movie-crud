@@ -145,7 +145,7 @@ func (h *handlerV1) GetAllUsers(c *gin.Context) {
 	var request models.UserGetListRequest
 
 	request.Limit = h.getDefaultLimit(cast.ToInt32(c.Query("limit")))
-	request.Offset = h.getDefaultLimit(cast.ToInt32(c.Query("offset")))
+	request.Offset = h.getDefaultOffset(cast.ToInt32(c.Query("offset")))
 
 	response, err := h.storage.UserService().GetAllUsers(request)
 	if err != nil {
