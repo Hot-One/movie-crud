@@ -43,6 +43,8 @@ func NewRouter(option Option) *gin.Engine {
 
 	api := router.Group("/v1")
 
+	api.POST("/register", handlerV1.Register)
+
 	user := api.Group("/user")
 	{
 		user.POST("", handlerV1.CreateUser)

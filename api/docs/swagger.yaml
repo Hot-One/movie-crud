@@ -34,6 +34,17 @@ definitions:
     - title
     - year
     type: object
+  models.Register:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      username:
+        type: string
+    type: object
   models.UserCreate:
     properties:
       age:
@@ -303,6 +314,44 @@ paths:
       summary: Get Single Movie
       tags:
       - Movie
+  /v1/register:
+    post:
+      consumes:
+      - application/json
+      description: Register user
+      parameters:
+      - description: Register User
+        in: body
+        name: movie
+        required: true
+        schema:
+          $ref: '#/definitions/models.Register'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad request
+          schema:
+            allOf:
+            - $ref: '#/definitions/status_http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Internal server error
+          schema:
+            allOf:
+            - $ref: '#/definitions/status_http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: Register user
+      tags:
+      - Auth
   /v1/user:
     get:
       consumes:

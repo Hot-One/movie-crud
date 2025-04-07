@@ -37,7 +37,7 @@ func main() {
 
 	newPg := postgres.NewPostgres(&cfg)
 
-	strg := storage.NewStorage(newPg)
+	strg := storage.NewStorage(newPg, cfg)
 
 	server := api.NewRouter(api.Option{
 		Conf:    cfg,

@@ -30,6 +30,7 @@ func NewPostgres(cfg *config.Config) *Postgres {
 
 	db.AutoMigrate(&models.User{})
 	db.AutoMigrate(&models.Movie{})
+	db.AutoMigrate(&models.Session{})
 
 	return &Postgres{Db: db}
 }
