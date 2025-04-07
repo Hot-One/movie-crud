@@ -1,0 +1,7 @@
+.env
+vendor
+any.go
+any_test.go
+test.sql
+resp.json
+1.txt
