@@ -52,6 +52,15 @@ func NewRouter(option Option) *gin.Engine {
 		user.GET("", handlerV1.GetAllUsers)
 	}
 
+	movie := api.Group("/movie")
+	{
+		movie.POST("", handlerV1.CreateMovie)
+		movie.PUT("", handlerV1.UpdateMovie)
+		movie.GET(":id", handlerV1.GetSingleMovie)
+		movie.DELETE(":id", handlerV1.DeleteMovie)
+		movie.GET("", handlerV1.GetAllMovies)
+	}
+
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 	return router
 }

@@ -7,21 +7,28 @@ import (
 
 type IStorage interface {
 	UserService() repo.UserRepoInterface
+	MovieService() repo.MovieRepoInterface
 }
 
 type storage struct {
 	db *postgres.Postgres
 
-	userService repo.UserRepoInterface
+	userService  repo.UserRepoInterface
+	movieService repo.MovieRepoInterface
 }
 
 func NewStorage(db *postgres.Postgres) IStorage {
 	return &storage{
-		db:          db,
-		userService: postgres.NewUserRepository(db),
+		db:           db,
+		userService:  postgres.NewUserRepository(db),
+		movieService: postgres.NewMovieRepository(db),
 	}
 }
 
 func (s *storage) UserService() repo.UserRepoInterface {
 	return s.userService
+}
+
+func (s *storage) MovieService() repo.MovieRepoInterface {
+	return s.movieService
 }

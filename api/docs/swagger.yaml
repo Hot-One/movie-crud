@@ -1,4 +1,39 @@
 definitions:
+  models.MovieCreate:
+    properties:
+      director:
+        type: string
+      plot:
+        type: string
+      title:
+        type: string
+      year:
+        type: string
+    required:
+    - director
+    - plot
+    - title
+    - year
+    type: object
+  models.MovieUpdate:
+    properties:
+      director:
+        type: string
+      id:
+        type: integer
+      plot:
+        type: string
+      title:
+        type: string
+      year:
+        type: string
+    required:
+    - director
+    - id
+    - plot
+    - title
+    - year
+    type: object
   models.UserCreate:
     properties:
       age:
@@ -53,6 +88,221 @@ info:
   title: GromTemplate API
   version: "1.0"
 paths:
+  /v1/movie:
+    get:
+      consumes:
+      - application/json
+      description: Get All Movies
+      parameters:
+      - description: offset
+        in: query
+        name: offset
+        type: integer
+      - description: limit
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Movie data
+          schema:
+            allOf:
+            - $ref: '#/definitions/status_http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            allOf:
+            - $ref: '#/definitions/status_http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Internal server error
+          schema:
+            allOf:
+            - $ref: '#/definitions/status_http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: Get All Movies
+      tags:
+      - Movie
+    post:
+      consumes:
+      - application/json
+      description: Create Movie
+      parameters:
+      - description: Movie User
+        in: body
+        name: movie
+        required: true
+        schema:
+          $ref: '#/definitions/models.MovieCreate'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad request
+          schema:
+            allOf:
+            - $ref: '#/definitions/status_http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Internal server error
+          schema:
+            allOf:
+            - $ref: '#/definitions/status_http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: Create Movie
+      tags:
+      - Movie
+    put:
+      consumes:
+      - application/json
+      description: Update Movie
+      parameters:
+      - description: Update Movie
+        in: body
+        name: movie
+        required: true
+        schema:
+          $ref: '#/definitions/models.MovieUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Movie data
+          schema:
+            allOf:
+            - $ref: '#/definitions/status_http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            allOf:
+            - $ref: '#/definitions/status_http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Internal server error
+          schema:
+            allOf:
+            - $ref: '#/definitions/status_http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: Update Movie
+      tags:
+      - Movie
+  /v1/movie/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Movie
+      parameters:
+      - description: movie_id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            allOf:
+            - $ref: '#/definitions/status_http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            allOf:
+            - $ref: '#/definitions/status_http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Internal server error
+          schema:
+            allOf:
+            - $ref: '#/definitions/status_http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: Delete Movie
+      tags:
+      - Movie
+    get:
+      consumes:
+      - application/json
+      description: Get Single Movie By Id
+      parameters:
+      - description: movie_id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Movie data
+          schema:
+            allOf:
+            - $ref: '#/definitions/status_http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            allOf:
+            - $ref: '#/definitions/status_http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Internal server error
+          schema:
+            allOf:
+            - $ref: '#/definitions/status_http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: Get Single Movie
+      tags:
+      - Movie
   /v1/user:
     get:
       consumes:
